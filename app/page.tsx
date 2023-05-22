@@ -1,3 +1,4 @@
+import NewsletterForm from "@/components/NewsletterForm";
 
 
 export default function Home() {
@@ -11,7 +12,7 @@ export default function Home() {
           Newsletter
         </h1>
       </div>
-      {/** <NewsletterForm /> */}
+      <NewsletterForm />
       {/** <Socials /> */}
     </main>
   );
