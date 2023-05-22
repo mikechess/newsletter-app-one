@@ -1,13 +1,16 @@
 'use client'
 
+import { getPlaneKeyframes } from "@/lib/getPlaneKeyframes";
+import { getTrailsKeyframes } from "@/lib/getTrailsKeyframes";
 import { EnvelopeIcon } from "@heroicons/react/24/outline";
+import { gsap } from "gsap"
 import { FormEvent, useRef, useState } from "react"
 
 function NewsletterForm() {
   const [input, setInput] = useState("")
   const [active, setActive] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  console.log(input)
+  const { to, fromTo, set } = gsap
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,11 +23,12 @@ function NewsletterForm() {
     if (!active) {
       setActive(true);
 
-      // to gsap animation
-      // to gsap animation
+      to(button, {
+        keyframes: getPlaneKeyframes(set, fromTo, button, setActive, setInput),
+      });
+
+      to(button, { keyframes: getTrailsKeyframes(button) });
     }
-
-
   }
 
   return (
@@ -44,7 +48,9 @@ function NewsletterForm() {
               className="flex-1 text-white text-sm sm:text-base outline-none placeholder-[#4B4C52] group-focus-within:placeholder-white bg-transparent placeholder:transition-colors placeholder:duration-300"
             />
             <button ref={buttonRef} disabled={!input}
-            type="submit" className={`disabled:!bg-[#17141F] disabled:grayscale-[65%] disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base`}>
+            type="submit" className={`${
+              active && "active"
+            } disabled:!bg-[#17141F] disabled:grayscale-[65%] disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base`}>
               <span className="default">Subscribe</span>
               <span className="success">
                 <svg viewBox="0 0 16 16">
